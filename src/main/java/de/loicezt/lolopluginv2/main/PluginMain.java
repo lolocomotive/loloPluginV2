@@ -8,6 +8,7 @@ import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingParticleAmountMultiplier;
 import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingSpeed;
 import de.loicezt.lolopluginv2.events.AnnoyModeEvt;
 import de.loicezt.lolopluginv2.events.WsEventsEntity;
+import fr.Iceknith.lolopluginv2.commands.CommandIce;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -38,6 +39,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         this.getCommand("propulsate").setExecutor(new Propulsate());
         this.getCommand("setdebug").setExecutor(new SetDebug());
         this.getCommand("setannoy").setExecutor(new SetAnnoy());
+        this.getCommand("ice").setExecutor(new CommandIce());
 
 
         getServer().getPluginManager().registerEvents(this, this);

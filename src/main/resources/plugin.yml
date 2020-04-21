@@ -3,7 +3,7 @@ version: 1.0
 main: de.loicezt.lolopluginv2.main.PluginMain
 api-version: 1.13
 prefix: loloPluginV2
-authors: [loicEzt]
+authors: [loicEzt, Iceknith]
 description: The main Plugin that I am developping for my server
 commands:
   lolo:
@@ -36,3 +36,6 @@ commands:
   setannoy:
     description: sets the annoy mode
     usage: /setannoy <true or false>
+  ice:
+    description: send the SWAGGIEST message ever
+    usage: /ice
