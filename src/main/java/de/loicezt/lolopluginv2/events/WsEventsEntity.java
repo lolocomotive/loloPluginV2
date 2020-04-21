@@ -65,7 +65,6 @@ public class WsEventsEntity implements Runnable, Listener {
     public void run() {
         World world = Bukkit.getWorld("world");
         if (debug) Bukkit.broadcastMessage("=====================================================");
-        if(debug)Bukkit.broadcastMessage("=====================================================");
         @SuppressWarnings("Null")
         List<Entity> el = world.getEntities();
         for (int i = 0; i < el.size(); i++) {
