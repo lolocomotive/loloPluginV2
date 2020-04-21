@@ -60,8 +60,6 @@ public class WsEventsEntity implements Runnable, Listener {
         }
         if (PluginMain.gliding) e.setCancelled(true);
     }
-
-    @EventHandler
     public void run() {
         List<Entity> el = world.getEntities();
         for (Entity entity : el) {
