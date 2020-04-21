@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Hello , Here I am!
+//that's cool
 
 public class WsEventsEntity implements Runnable, Listener {
     public static float speed = 10f;
