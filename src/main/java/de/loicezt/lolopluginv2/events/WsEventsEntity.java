@@ -14,6 +14,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
+//Hello , Here I am!
 
 public class WsEventsEntity implements Runnable, Listener {
     public static float speed = 10f;
@@ -65,10 +66,9 @@ public class WsEventsEntity implements Runnable, Listener {
         World world = Bukkit.getWorld("world");
         if (debug) Bukkit.broadcastMessage("=====================================================");
         if(debug)Bukkit.broadcastMessage("=====================================================");
-
+        @SuppressWarnings("Null")
         List<Entity> el = world.getEntities();
         for (int i = 0; i < el.size(); i++) {
-            Vector dir = el.get(i).getLocation().getDirection();
             if (debug) Bukkit.broadcastMessage("Entity " + i + " :" + el.get(i).getName());
             Block block = el.get(i).getWorld().getBlockAt(el.get(i).getLocation());
 
