@@ -1,0 +1,38 @@
+name: LoloPluginV2
+version: 1.0
+main: de.loicezt.lolopluginv2.main.PluginMain
+api-version: 1.13
+prefix: loloPluginV2
+authors: [loicEzt]
+description: The main Plugin that I am developping for my server
+commands:
+  lolo:
+    description: The main command of the loloPlugin V2
+    usage: /lolo
+  glide:
+    description: makes the player glide
+    usage: /glide
+  unglide:
+    description: keeps the player from gliding
+    usage: /unglide
+  eg:
+    description: enables gliding on the server
+    usage: /eg
+  dg:
+    description: disables gliding on the server
+    usage: /dg
+  sws:
+    description: sets the watersliding speed - default is 10
+    usage: /sws <speed>
+  wsp:
+    description: sets the particle amount multiplier - default is 10
+    usage: /wsp <amount>
+  propulsate:
+    description: propulsates you to the given speed
+    usage: /propulsate <speed>
+  setdebug:
+    description: sets the debug mode
+    usage: /setdebug <true or false>
+  setannoy:
+    description: sets the annoy mode
+    usage: /setannoy <true or false>
