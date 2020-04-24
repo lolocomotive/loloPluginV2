@@ -39,3 +39,6 @@ commands:
   ice:
     description: send the SWAGGIEST message ever
     usage: /ice
+  srd:
+    description: summon rideable dolphin
+    usage: /srd
