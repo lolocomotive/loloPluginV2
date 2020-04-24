@@ -42,3 +42,9 @@ commands:
   srd:
     description: summon rideable dolphin
     usage: /srd
+  ms:
+    description: Multispawn
+    usage: /ms
+  cms:
+    description: cancel all current multispawn tasks
+    usage: /cms
