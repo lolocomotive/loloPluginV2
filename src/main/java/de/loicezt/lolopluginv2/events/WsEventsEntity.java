@@ -5,7 +5,6 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
@@ -19,15 +18,14 @@ import java.util.List;
 public class WsEventsEntity implements Runnable, Listener {
     public static float speed = 10f;
     public static List<Entity> watersliding = new ArrayList<Entity>();
-    public static boolean debug = false;
-    public static int particleAmountMultiplier = 10;
     World world = Bukkit.getWorld("world");
 
     public static void addEntity(Entity entity) {
         Vector dir = entity.getLocation().getDirection();
         Vector push = new Vector();
         if (!watersliding.contains(entity)) {
-            if (debug) entity.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bYou are now watersliding!"));
+            if (PluginMain.isDebug())
+                entity.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bYou are now watersliding!"));
             watersliding.add(entity);
         } else {
             push.setX(dir.getX() * speed * .009);
@@ -35,7 +33,7 @@ public class WsEventsEntity implements Runnable, Listener {
             push.setZ(dir.getZ() * speed * .009);
         }
         if (entity instanceof Vehicle) {
-            if (((Horse) entity).getPassengers().size() != 0) {
+            if (entity.getPassengers().size() != 0) {
                 push.setX(dir.getX() * speed * .1);
                 push.setY(0);
                 push.setZ(dir.getZ() * speed * .1);
@@ -51,7 +49,7 @@ public class WsEventsEntity implements Runnable, Listener {
     public static void removeEntity(Entity entity) {
 
         if (watersliding.contains(entity)) {
-            if (debug)
+            if (PluginMain.isDebug())
                 entity.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You are not watersliding anymore!"));
             entity.setVelocity(new Vector(0, 0, 0));
             watersliding.remove(entity);
@@ -67,7 +65,7 @@ public class WsEventsEntity implements Runnable, Listener {
                 e.setCancelled(true);
             }
         }
-        if (PluginMain.gliding) e.setCancelled(true);
+        if (PluginMain.isGliding()) e.setCancelled(true);
     }
 
     public void run() {
@@ -87,9 +85,9 @@ public class WsEventsEntity implements Runnable, Listener {
                                 removeEntity(entity);
                             }
                         }
-                        world.spawnParticle(Particle.FALLING_WATER, entity.getLocation(), 10 * particleAmountMultiplier, .5, .5, .5);
-                        world.spawnParticle(Particle.SNOWBALL, entity.getLocation(), (int) 0.5 * particleAmountMultiplier, 0, 0, 0);
-                        world.spawnParticle(Particle.WATER_BUBBLE, entity.getLocation(), 10 * particleAmountMultiplier, .2, .1, .2, .5);
+                        world.spawnParticle(Particle.FALLING_WATER, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .5, .5, .5);
+                        world.spawnParticle(Particle.SNOWBALL, entity.getLocation(), Math.round(0.5f * PluginMain.getWsPartMult()), 0.0, 0.0, 0.0);
+                        world.spawnParticle(Particle.WATER_BUBBLE, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .2, .1, .2, .5);
                     }
                 } else {
                     removeEntity(entity);

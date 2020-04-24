@@ -14,7 +14,7 @@ public class DisableGliding implements CommandExecutor {
         if (sender instanceof Player) {
 
             Bukkit.broadcastMessage("Gliding disabled");
-            PluginMain.gliding = false;
+            PluginMain.setGliding(false);
 
             return true;
         }

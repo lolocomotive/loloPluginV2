@@ -1,6 +1,6 @@
 package de.loicezt.lolopluginv2.cmd;
 
-import de.loicezt.lolopluginv2.events.WsEventsEntity;
+import de.loicezt.lolopluginv2.main.PluginMain;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -17,7 +17,7 @@ public class SetDebug implements CommandExecutor {
                 boolean debug = Boolean.parseBoolean(args[0]);
 
                 Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&aSetting debug mode to : &e" + String.valueOf(debug)));
-                WsEventsEntity.debug = debug;
+                PluginMain.setDebug(debug);
 
             } catch (Exception e) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Usage: &6/setDebug <true or false>"));

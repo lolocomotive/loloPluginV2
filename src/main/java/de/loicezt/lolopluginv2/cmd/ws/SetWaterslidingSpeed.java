@@ -1,6 +1,6 @@
 package de.loicezt.lolopluginv2.cmd.ws;
 
-import de.loicezt.lolopluginv2.events.WsEventsEntity;
+import de.loicezt.lolopluginv2.main.PluginMain;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -24,7 +24,7 @@ public class SetWaterslidingSpeed implements CommandExecutor {
                     return true;
                 }
                 Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&aSetting sliding speed to : &e" + Float.valueOf(args[0])));
-                WsEventsEntity.speed = speed;
+                PluginMain.setWsSpeed(speed);
 
             } catch (Exception e) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Usage: &6/sws <speed>"));

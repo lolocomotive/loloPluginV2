@@ -1,6 +1,5 @@
 package de.loicezt.lolopluginv2.types;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Dolphin;
 import org.bukkit.entity.Horse;
 
@@ -11,7 +10,6 @@ public class DolphinRideItm {
     public DolphinRideItm(Dolphin d, Horse h) {
         this.dolphin = d;
         this.horse = h;
-        Bukkit.broadcastMessage("creating new DolphinRideItm");
     }
 
     public Dolphin getDolphin() {
