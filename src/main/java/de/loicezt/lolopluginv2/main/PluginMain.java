@@ -2,6 +2,8 @@ package de.loicezt.lolopluginv2.main;
 
 import de.loicezt.lolopluginv2.cmd.*;
 import de.loicezt.lolopluginv2.cmd.gliding.*;
+import de.loicezt.lolopluginv2.cmd.multiworld.AddMyWorld;
+import de.loicezt.lolopluginv2.cmd.multiworld.Lobby;
 import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingParticleAmountMultiplier;
 import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingSpeed;
 import de.loicezt.lolopluginv2.events.AnnoyModeEvt;
@@ -23,7 +25,6 @@ import java.util.logging.Level;
 
 public class PluginMain extends JavaPlugin implements Listener {
 
-
     private static boolean gliding;
     private static boolean debug;
     private static boolean annoy;
@@ -31,29 +32,8 @@ public class PluginMain extends JavaPlugin implements Listener {
     private static float wsPartMult;
     FileConfiguration config = getConfig();
 
-
-    // This method checks for incoming players and sends them a message
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &bOMG, You just joined the server!!"));
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eThis server is powered by &2loloPlugin&6V2"));
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eRun &1/lolo &e for more"));
-    }
-
-
     public static float getWsSpeed() {
         return wsSpeed;
-    }
-
-    @Override
-    public void onDisable() {
-        config.set("annoy", annoy);
-        config.set("gliding", gliding);
-        config.set("debug", debug);
-        config.set("wsSpeed", wsSpeed);
-        config.set("wsPartMult", wsPartMult);
-        saveConfig();
     }
 
     public static void setWsSpeed(float wsSpeed) {
@@ -127,7 +107,8 @@ public class PluginMain extends JavaPlugin implements Listener {
         this.getCommand("srd").setExecutor(new SummonRideableDolphin());
         this.getCommand("ms").setExecutor(new Multispawn());
         this.getCommand("cms").setExecutor(new Cancelms());
-
+        this.getCommand("amw").setExecutor(new AddMyWorld());
+        this.getCommand("lobby").setExecutor(new Lobby());
 
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new SwimCmd(), this);
@@ -139,5 +120,23 @@ public class PluginMain extends JavaPlugin implements Listener {
         s.scheduleSyncRepeatingTask(this, new WsEventsEntity(), 0L, 0L);
         s.scheduleSyncRepeatingTask(this, new DolphinEvents(), 0L, 0L);
         s.scheduleSyncRepeatingTask(this, new Multispawn(), 0L, 0L);
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &bOMG, You just joined the server!!"));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eThis server is powered by &2loloPlugin&6V2"));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eRun &1/lolo &e for more"));
+    }
+
+    @Override
+    public void onDisable() {
+        config.set("annoy", annoy);
+        config.set("gliding", gliding);
+        config.set("debug", debug);
+        config.set("wsSpeed", wsSpeed);
+        config.set("wsPartMult", wsPartMult);
+        saveConfig();
     }
 }

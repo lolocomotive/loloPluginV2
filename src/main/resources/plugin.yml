@@ -9,42 +9,64 @@ commands:
   lolo:
     description: The main command of the loloPlugin V2
     usage: /lolo
+    permission: loloplugin.cmd.lolo
   glide:
     description: makes the player glide
     usage: /glide
+    permission: loloplugin.cmd.glide
   unglide:
     description: keeps the player from gliding
     usage: /unglide
+    permission: loloplugin.cmd.unglide
   eg:
     description: enables gliding on the server
     usage: /eg
+    permission: loloplugin.cmd.eg
   dg:
     description: disables gliding on the server
     usage: /dg
+    permission: loloplugin.cmd.dg
   sws:
     description: sets the watersliding speed - default is 10
     usage: /sws <speed>
+    permission: loloplugin.cmd.sws
   wsp:
     description: sets the particle amount multiplier - default is 10
     usage: /wsp <amount>
+    permission: loloplugin.cmd.wsp
   propulsate:
     description: propulsates you to the given speed
     usage: /propulsate <speed>
+    permission: loloplugin.cmd.propulsate
   setdebug:
     description: sets the debug mode
     usage: /setdebug <true or false>
+    permission: loloplugin.cmd.setdebug
   setannoy:
     description: sets the annoy mode
     usage: /setannoy <true or false>
+    permission: loloplugin.cmd.setannoy
   ice:
     description: send the SWAGGIEST message ever
     usage: /ice
+    permission: loloplugin.cmd.ice
   srd:
     description: summon rideable dolphin
     usage: /srd
+    permission: loloplugin.cmd.srd
   ms:
     description: Multispawn
     usage: /ms
+    permission: loloplugin.cmd.ms
   cms:
     description: cancel all current multispawn tasks
     usage: /cms
+    permission: loloplugin.cmd.cms
+  amw:
+    description: AddMyWorld
+    usage: /amw
+    permission: loloplugin.cmd.amw
+  lobby:
+    description: Return to lobby
+    usage: /lobby
+    permission: loloplugin.cmd.lobby
