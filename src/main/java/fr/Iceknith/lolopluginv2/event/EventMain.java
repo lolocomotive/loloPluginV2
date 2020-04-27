@@ -54,10 +54,8 @@ public class EventMain implements Listener {
 
                 if (BossSpawn.isBossSpawn) {
                     int random1 = r.nextInt(BossSpawn.Frequence) + 1;
-                    Bukkit.broadcastMessage(String.valueOf(random1));
                     if (random1 == 1) {
 
-                        Bukkit.broadcastMessage("OMG a boss just spawned");
                         int mobHealthB = r.nextInt(150) + 100;
                         NormalHealth = Objects.requireNonNull(event.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
                         Objects.requireNonNull(event.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(NormalHealth + mobHealthB);
