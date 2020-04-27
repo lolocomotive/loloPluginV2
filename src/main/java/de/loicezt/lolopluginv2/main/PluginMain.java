@@ -34,7 +34,6 @@ public class PluginMain extends JavaPlugin implements Listener {
     FileConfiguration config = getConfig();
 
 
-
     @Override
     public void onEnable() {
         config.addDefault("gliding", false);
@@ -94,6 +93,8 @@ public class PluginMain extends JavaPlugin implements Listener {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eThis server is powered by &2loloPlugin&6V2"));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eRun &1/lolo &e for more"));
     }
+
+    //getters and setters
 
     public static float getWsSpeed() {
         return wsSpeed;
