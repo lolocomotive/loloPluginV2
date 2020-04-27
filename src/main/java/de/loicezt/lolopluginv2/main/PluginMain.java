@@ -15,7 +15,9 @@ import fr.Iceknith.lolopluginv2.commands.BossSpawn;
 import fr.Iceknith.lolopluginv2.commands.CommandIce;
 import fr.Iceknith.lolopluginv2.commands.MobD;
 import fr.Iceknith.lolopluginv2.event.EventMain;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +25,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.logging.Level;
 
 public class PluginMain extends JavaPlugin implements Listener {
 
@@ -36,11 +40,26 @@ public class PluginMain extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        config.addDefault("youAreAwesome", true);
+        config.addDefault("gliding", false);
+        config.addDefault("debug", false);
+        config.addDefault("annoy", false);
+        config.addDefault("wsSpeed", 10.0f);
+        config.addDefault("wsPartMult", 10.0f);
         config.options().copyDefaults(true);
         saveConfig();
+        debug = config.getBoolean("debug");
+        annoy = config.getBoolean("annoy");
+        gliding = config.getBoolean("gliding");
+        annoy = config.getBoolean("annoy");
+        wsPartMult = (float) config.getDouble("wsPartMult");
+        wsSpeed = (float) config.getDouble("wsSpeed");
+        Server server = Bukkit.getServer();
+        server.getLogger().log(Level.INFO, "[loloPluginV2] debug : " + String.valueOf(debug));
+        server.getLogger().log(Level.INFO, "[loloPluginV2] annoy : " + String.valueOf(annoy));
+        server.getLogger().log(Level.INFO, "[loloPluginV2] gliding : " + String.valueOf(gliding));
 
         //Register all the commands
+
         this.getCommand("lolo").setExecutor(new CmdMain());
         this.getCommand("glide").setExecutor(new GlideCmd());
         this.getCommand("unglide").setExecutor(new UnGlide());
