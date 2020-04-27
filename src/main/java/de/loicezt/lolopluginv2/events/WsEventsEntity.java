@@ -20,6 +20,7 @@ public class WsEventsEntity implements Runnable, Listener {
     public static List<Entity> watersliding = new ArrayList<Entity>();
     World world = Bukkit.getWorld("world");
 
+
     public static void addEntity(Entity entity) {
         Vector dir = entity.getLocation().getDirection();
         Vector push = new Vector();
@@ -69,32 +70,35 @@ public class WsEventsEntity implements Runnable, Listener {
     }
 
     public void run() {
-        List<Entity> el = world.getEntities();
-        for (Entity entity : el) {
-            Block block = entity.getWorld().getBlockAt(entity.getLocation());
-            if (block.getType() == Material.QUARTZ_SLAB) {
-                if (block.getBlockData() instanceof Waterlogged) {
-                    Waterlogged w = (Waterlogged) block.getBlockData();
-                    if (w.isWaterlogged()) {
-                        addEntity(entity);
-                        if (entity instanceof Player) {
-                            Player p = (Player) entity;
-                            if (p.getVehicle() == null) {
-                                p.setGliding(true);
-                            } else {
-                                removeEntity(entity);
+        List<World> worlds = Bukkit.getWorlds();
+        for (World world : worlds) {
+            List<Entity> el = world.getEntities();
+            for (Entity entity : el) {
+                Block block = entity.getWorld().getBlockAt(entity.getLocation());
+                if (block.getType() == Material.QUARTZ_SLAB) {
+                    if (block.getBlockData() instanceof Waterlogged) {
+                        Waterlogged w = (Waterlogged) block.getBlockData();
+                        if (w.isWaterlogged()) {
+                            addEntity(entity);
+                            if (entity instanceof Player) {
+                                Player p = (Player) entity;
+                                if (p.getVehicle() == null) {
+                                    p.setGliding(true);
+                                } else {
+                                    removeEntity(entity);
+                                }
                             }
+                            world.spawnParticle(Particle.FALLING_WATER, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .5, .5, .5);
+                            world.spawnParticle(Particle.SNOWBALL, entity.getLocation(), Math.round(0.5f * PluginMain.getWsPartMult()), 0.0, 0.0, 0.0);
+                            world.spawnParticle(Particle.WATER_BUBBLE, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .2, .1, .2, .5);
                         }
-                        world.spawnParticle(Particle.FALLING_WATER, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .5, .5, .5);
-                        world.spawnParticle(Particle.SNOWBALL, entity.getLocation(), Math.round(0.5f * PluginMain.getWsPartMult()), 0.0, 0.0, 0.0);
-                        world.spawnParticle(Particle.WATER_BUBBLE, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .2, .1, .2, .5);
+                    } else {
+                        removeEntity(entity);
+
                     }
                 } else {
                     removeEntity(entity);
-
                 }
-            } else {
-                removeEntity(entity);
             }
         }
     }
