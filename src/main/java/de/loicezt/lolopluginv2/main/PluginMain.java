@@ -3,6 +3,7 @@ package de.loicezt.lolopluginv2.main;
 import de.loicezt.lolopluginv2.cmd.*;
 import de.loicezt.lolopluginv2.cmd.gliding.*;
 import de.loicezt.lolopluginv2.cmd.multiworld.AddMyWorld;
+import de.loicezt.lolopluginv2.cmd.multiworld.FreeBuildCommon;
 import de.loicezt.lolopluginv2.cmd.multiworld.Lobby;
 import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingParticleAmountMultiplier;
 import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingSpeed;
@@ -109,6 +110,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         this.getCommand("cms").setExecutor(new Cancelms());
         this.getCommand("amw").setExecutor(new AddMyWorld());
         this.getCommand("lobby").setExecutor(new Lobby());
+        this.getCommand("fbc").setExecutor(new FreeBuildCommon());
 
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new SwimCmd(), this);
@@ -125,6 +127,7 @@ public class PluginMain extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        player.performCommand("lobby");
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &bOMG, You just joined the server!!"));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eThis server is powered by &2loloPlugin&6V2"));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eRun &1/lolo &e for more"));

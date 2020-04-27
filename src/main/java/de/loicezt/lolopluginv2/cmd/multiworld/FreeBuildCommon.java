@@ -7,13 +7,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Lobby implements CommandExecutor {
-    @Override
+public class FreeBuildCommon implements CommandExecutor {
+
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            Location loc = new Location(Bukkit.getWorld("World"), 133.5, 6, -170.5);
+            Location loc = new Location(Bukkit.getWorld("FBC"), 180, 6, -82);
             p.teleport(loc);
 
         } else {

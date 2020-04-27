@@ -70,3 +70,7 @@ commands:
     description: Return to lobby
     usage: /lobby
     permission: loloplugin.cmd.lobby
+  fbc:
+    description: Go to the freebuild server
+    usage: /fbc
+    permission: loloplugin.cmd.fbc
