@@ -70,6 +70,8 @@ public class PluginMain extends JavaPlugin implements Listener {
 
         BukkitScheduler s = getServer().getScheduler();
         s.scheduleSyncRepeatingTask(this, new WsEventsEntity(), 0L, 0L);
+        s.scheduleSyncRepeatingTask(this, new DolphinEvents(), 0L, 0L);
+        s.scheduleSyncRepeatingTask(this, new Multispawn(), 0L, 0L);
         s.scheduleSyncRepeatingTask(this, new BossHandler(), 0L, 0L);
     }
 
