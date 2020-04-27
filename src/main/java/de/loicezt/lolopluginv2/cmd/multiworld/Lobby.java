@@ -12,6 +12,7 @@ public class Lobby implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (sender instanceof Player) {
+            //return player to the lobby
             Player p = (Player) sender;
             Location loc = new Location(Bukkit.getWorld("World"), 133.5, 6, -170.5);
             p.teleport(loc);

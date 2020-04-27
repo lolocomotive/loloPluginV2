@@ -12,6 +12,7 @@ public class FreeBuildCommon implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (sender instanceof Player) {
+            //teleport player to the common freebuild server
             Player p = (Player) sender;
             Location loc = new Location(Bukkit.getWorld("FBC"), 180, 6, -82);
             p.teleport(loc);

@@ -40,8 +40,10 @@ public class PluginMain extends JavaPlugin implements Listener {
         config.options().copyDefaults(true);
         saveConfig();
         gliding = false;
+
+        //Register all the commands
         this.getCommand("lolo").setExecutor(new CmdMain());
-        this.getCommand("glide").setExecutor(new SwimCmd());
+        this.getCommand("glide").setExecutor(new GlideCmd());
         this.getCommand("unglide").setExecutor(new UnGlide());
         this.getCommand("eg").setExecutor(new EnableGliding());
         this.getCommand("dg").setExecutor(new DisableGliding());
@@ -60,15 +62,16 @@ public class PluginMain extends JavaPlugin implements Listener {
         this.getCommand("fbc").setExecutor(new FreeBuildCommon());
         this.getCommand("bs").setExecutor(new BossSpawn());
 
-
+        //Register Event listeners
         getServer().getPluginManager().registerEvents(this, this);
-        getServer().getPluginManager().registerEvents(new SwimCmd(), this);
+        getServer().getPluginManager().registerEvents(new GlideCmd(), this);
         getServer().getPluginManager().registerEvents(new WsEventsEntity(), this);
         getServer().getPluginManager().registerEvents(new AnnoyModeEvt(), this);
         getServer().getPluginManager().registerEvents(new DolphinEvents(), this);
         getServer().getPluginManager().registerEvents(new EventMain(), this);
 
         BukkitScheduler s = getServer().getScheduler();
+        //Register repeating tasks
         s.scheduleSyncRepeatingTask(this, new WsEventsEntity(), 0L, 0L);
         s.scheduleSyncRepeatingTask(this, new DolphinEvents(), 0L, 0L);
         s.scheduleSyncRepeatingTask(this, new Multispawn(), 0L, 0L);
