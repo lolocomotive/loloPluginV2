@@ -49,6 +49,9 @@ commands:
   ice:
     description: send the SWAGGIEST message ever
     usage: /ice
+  mobdiv:
+    description: allows the mob diversifications (mobs spawns with randoms attributes)
+    usage: /mobdiv <true or false>
     permission: loloplugin.cmd.ice
   srd:
     description: summon rideable dolphin
@@ -74,3 +77,6 @@ commands:
     description: Go to the freebuild server
     usage: /fbc
     permission: loloplugin.cmd.fbc
+  bs:
+    description: allows sometimes boss to spawn
+    usage: /bs <true or false> <frequence>"
