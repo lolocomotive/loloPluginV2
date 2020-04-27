@@ -26,7 +26,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 public class PluginMain extends JavaPlugin implements Listener {
 
-    public static boolean gliding;
+    private static boolean gliding;
     private static boolean debug;
     private static boolean annoy;
     private static float wsSpeed;
@@ -39,7 +39,6 @@ public class PluginMain extends JavaPlugin implements Listener {
         config.addDefault("youAreAwesome", true);
         config.options().copyDefaults(true);
         saveConfig();
-        gliding = false;
 
         //Register all the commands
         this.getCommand("lolo").setExecutor(new CmdMain());
@@ -140,4 +139,5 @@ public class PluginMain extends JavaPlugin implements Listener {
         saveConfig();
 
     }
+
 }
