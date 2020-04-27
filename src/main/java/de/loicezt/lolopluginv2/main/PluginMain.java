@@ -33,45 +33,7 @@ public class PluginMain extends JavaPlugin implements Listener {
     private static float wsPartMult;
     FileConfiguration config = getConfig();
 
-    public static float getWsSpeed() {
-        return wsSpeed;
-    }
 
-    public static void setWsSpeed(float wsSpeed) {
-        PluginMain.wsSpeed = wsSpeed;
-    }
-
-    public static float getWsPartMult() {
-        return wsPartMult;
-    }
-
-    public static void setWsPartMult(float wsPartMult) {
-        PluginMain.wsPartMult = wsPartMult;
-    }
-
-    public static boolean isGliding() {
-        return gliding;
-    }
-
-    public static void setGliding(boolean gliding) {
-        PluginMain.gliding = gliding;
-    }
-
-    public static boolean isDebug() {
-        return debug;
-    }
-
-    public static void setDebug(boolean debug) {
-        PluginMain.debug = debug;
-    }
-
-    public static boolean isAnnoy() {
-        return annoy;
-    }
-
-    public static void setAnnoy(boolean annoy) {
-        PluginMain.annoy = annoy;
-    }
 
     @Override
     public void onEnable() {
@@ -131,6 +93,46 @@ public class PluginMain extends JavaPlugin implements Listener {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &bOMG, You just joined the server!!"));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eThis server is powered by &2loloPlugin&6V2"));
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eRun &1/lolo &e for more"));
+    }
+
+    public static float getWsSpeed() {
+        return wsSpeed;
+    }
+
+    public static void setWsSpeed(float wsSpeed) {
+        PluginMain.wsSpeed = wsSpeed;
+    }
+
+    public static float getWsPartMult() {
+        return wsPartMult;
+    }
+
+    public static void setWsPartMult(float wsPartMult) {
+        PluginMain.wsPartMult = wsPartMult;
+    }
+
+    public static boolean isGliding() {
+        return gliding;
+    }
+
+    public static void setGliding(boolean gliding) {
+        PluginMain.gliding = gliding;
+    }
+
+    public static boolean isDebug() {
+        return debug;
+    }
+
+    public static void setDebug(boolean debug) {
+        PluginMain.debug = debug;
+    }
+
+    public static boolean isAnnoy() {
+        return annoy;
+    }
+
+    public static void setAnnoy(boolean annoy) {
+        PluginMain.annoy = annoy;
     }
 
     @Override
