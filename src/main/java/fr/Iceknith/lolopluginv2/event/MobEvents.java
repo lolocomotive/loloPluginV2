@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.Random;
 
 
-public class EventMain implements Listener {
+public class MobEvents implements Listener {
     public static List<Entity> bossList = new ArrayList<>();
     public static List<BossBar> bossBarList = new ArrayList<>();
     public static List<Double> NormalBossHealth = new ArrayList<>();
@@ -55,7 +55,6 @@ public class EventMain implements Listener {
                 if (BossSpawn.isBossSpawn) {
                     int random1 = r.nextInt(BossSpawn.Frequence) + 1;
                     if (random1 == 1) {
-
                         int mobHealthB = r.nextInt(150) + 100;
                         NormalHealth = Objects.requireNonNull(event.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
                         Objects.requireNonNull(event.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(NormalHealth + mobHealthB);

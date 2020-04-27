@@ -14,7 +14,7 @@ import fr.Iceknith.lolopluginv2.BossHandler;
 import fr.Iceknith.lolopluginv2.commands.BossSpawn;
 import fr.Iceknith.lolopluginv2.commands.CommandIce;
 import fr.Iceknith.lolopluginv2.commands.MobD;
-import fr.Iceknith.lolopluginv2.event.EventMain;
+import fr.Iceknith.lolopluginv2.event.MobEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -86,7 +86,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new WsEventsEntity(), this);
         getServer().getPluginManager().registerEvents(new AnnoyModeEvt(), this);
         getServer().getPluginManager().registerEvents(new DolphinEvents(), this);
-        getServer().getPluginManager().registerEvents(new EventMain(), this);
+        getServer().getPluginManager().registerEvents(new MobEvents(), this);
 
         BukkitScheduler s = getServer().getScheduler();
         //Register repeating tasks
