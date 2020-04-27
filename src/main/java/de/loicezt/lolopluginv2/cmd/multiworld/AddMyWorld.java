@@ -3,10 +3,7 @@ package de.loicezt.lolopluginv2.cmd.multiworld;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MVWorldManager;
 import com.onarandombox.MultiverseCore.api.MultiverseWorld;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.WorldType;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -41,6 +38,8 @@ public class AddMyWorld implements CommandExecutor {
             }
             Location loc = new Location(Bukkit.getWorld(wName), 0, 10, 0);
             p.teleport(loc);
+            p.setGameMode(GameMode.CREATIVE);
+            Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set default");
 
         } else {
             sender.sendMessage("You must be a player to execute this command");

@@ -1,6 +1,7 @@
 package de.loicezt.lolopluginv2.cmd.multiworld;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,7 +17,7 @@ public class Lobby implements CommandExecutor {
             Player p = (Player) sender;
             Location loc = new Location(Bukkit.getWorld("World"), 133.5, 6, -170.5);
             p.teleport(loc);
-
+            p.setGameMode(GameMode.ADVENTURE);
         } else {
             sender.sendMessage("You must be a player to execute this command");
         }

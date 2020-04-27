@@ -79,4 +79,9 @@ commands:
     permission: loloplugin.cmd.fbc
   bs:
     description: allows sometimes boss to spawn
-    usage: /bs <true or false> <frequence>"
+    usage: /bs <true or false> <frequency>
+    permission: loloplugin.cmd.bs
+  survival:
+    description: Teleports you to the survival world
+    usage: /survival
+    permission: loloplugin.cmd.survival

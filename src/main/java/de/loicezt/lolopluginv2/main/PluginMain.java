@@ -5,17 +5,16 @@ import de.loicezt.lolopluginv2.cmd.gliding.*;
 import de.loicezt.lolopluginv2.cmd.multiworld.AddMyWorld;
 import de.loicezt.lolopluginv2.cmd.multiworld.FreeBuildCommon;
 import de.loicezt.lolopluginv2.cmd.multiworld.Lobby;
+import de.loicezt.lolopluginv2.cmd.multiworld.Survival;
 import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingParticleAmountMultiplier;
 import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingSpeed;
-import de.loicezt.lolopluginv2.events.AnnoyModeEvt;
-import de.loicezt.lolopluginv2.events.DolphinEvents;
-import de.loicezt.lolopluginv2.events.MWorldEvt;
-import de.loicezt.lolopluginv2.events.WsEventsEntity;
+import de.loicezt.lolopluginv2.events.*;
 import fr.Iceknith.lolopluginv2.BossHandler;
 import fr.Iceknith.lolopluginv2.commands.BossSpawn;
 import fr.Iceknith.lolopluginv2.commands.CommandIce;
 import fr.Iceknith.lolopluginv2.commands.MobD;
 import fr.Iceknith.lolopluginv2.event.MobEvents;
+import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -27,6 +26,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.util.Objects;
 import java.util.logging.Level;
 
 public class PluginMain extends JavaPlugin implements Listener {
@@ -36,11 +36,39 @@ public class PluginMain extends JavaPlugin implements Listener {
     private static boolean annoy;
     private static float wsSpeed;
     private static float wsPartMult;
+    private static LuckPerms api;
+
+
     FileConfiguration config = getConfig();
 
+    public static LuckPerms getApi() {
+        return api;
+    }
+
+    // This method checks for incoming players and sends them a message
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        player.performCommand("lobby");
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &bOMG, You just joined the server!!"));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eThis server is powered by &2loloPlugin&6V2"));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eRun &1/lolo &e for more"));
+    }
+
+    //getters and setters
+
+    public static float getWsSpeed() {
+        return wsSpeed;
+    }
+
+    public static void setApi(LuckPerms api) {
+        PluginMain.api = api;
+    }
 
     @Override
     public void onEnable() {
+        //config handling
+        api = Objects.requireNonNull(Bukkit.getServicesManager().getRegistration(LuckPerms.class)).getProvider();
         config.addDefault("gliding", false);
         config.addDefault("debug", false);
         config.addDefault("annoy", false);
@@ -80,6 +108,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         this.getCommand("lobby").setExecutor(new Lobby());
         this.getCommand("fbc").setExecutor(new FreeBuildCommon());
         this.getCommand("bs").setExecutor(new BossSpawn());
+        this.getCommand("survival").setExecutor(new Survival());
 
         //Register Event listeners
         getServer().getPluginManager().registerEvents(this, this);
@@ -96,22 +125,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         s.scheduleSyncRepeatingTask(this, new DolphinEvents(), 0L, 0L);
         s.scheduleSyncRepeatingTask(this, new Multispawn(), 0L, 0L);
         s.scheduleSyncRepeatingTask(this, new BossHandler(), 0L, 0L);
-    }
-
-    // This method checks for incoming players and sends them a message
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        player.performCommand("lobby");
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &bOMG, You just joined the server!!"));
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eThis server is powered by &2loloPlugin&6V2"));
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "[loloPluginV2] &eRun &1/lolo &e for more"));
-    }
-
-    //getters and setters
-
-    public static float getWsSpeed() {
-        return wsSpeed;
+        s.scheduleSyncRepeatingTask(this, new GamemodeEvents(), 0L, 0L);
     }
 
     public static void setWsSpeed(float wsSpeed) {
