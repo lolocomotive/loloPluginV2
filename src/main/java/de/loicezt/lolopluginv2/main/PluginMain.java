@@ -9,6 +9,7 @@ import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingParticleAmountMultiplier;
 import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingSpeed;
 import de.loicezt.lolopluginv2.events.AnnoyModeEvt;
 import de.loicezt.lolopluginv2.events.DolphinEvents;
+import de.loicezt.lolopluginv2.events.MWorldEvt;
 import de.loicezt.lolopluginv2.events.WsEventsEntity;
 import fr.Iceknith.lolopluginv2.BossHandler;
 import fr.Iceknith.lolopluginv2.commands.BossSpawn;
@@ -87,6 +88,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new AnnoyModeEvt(), this);
         getServer().getPluginManager().registerEvents(new DolphinEvents(), this);
         getServer().getPluginManager().registerEvents(new MobEvents(), this);
+        getServer().getPluginManager().registerEvents(new MWorldEvt(), this);
 
         BukkitScheduler s = getServer().getScheduler();
         //Register repeating tasks
