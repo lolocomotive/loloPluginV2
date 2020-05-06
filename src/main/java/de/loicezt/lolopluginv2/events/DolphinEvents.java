@@ -4,7 +4,6 @@ import de.loicezt.lolopluginv2.types.DolphinRideItm;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Dolphin;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -33,11 +32,7 @@ public class DolphinEvents implements Listener, Runnable {
 
     @Override
     public void run() {
-        Player p = Bukkit.getPlayer("lolocomotive");
-        //p.sendMessage(dolphins.toString());
         for (DolphinRideItm d : dolphins) {
-            //p.sendMessage("a dolphin is movin");
-
             Location point = d.getHorse().getLocation();
             d.getDolphin().teleport(point);
             d.getDolphin().getLocation().setDirection(d.getDolphin().getLocation().getDirection());

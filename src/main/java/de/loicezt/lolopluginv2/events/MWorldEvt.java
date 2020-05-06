@@ -44,7 +44,11 @@ public class MWorldEvt implements Listener {
         }
         if (p.getWorld().getName().equals("World_" + p.getName().replace(" ", "_"))) {
             p.setGameMode(GameMode.CREATIVE);
-            Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set survival");
+            Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set default");
+        }
+        if (p.getWorld().getName().equals("FBC")) {
+            p.setGameMode(GameMode.CREATIVE);
+            Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set default");
         }
     }
 }

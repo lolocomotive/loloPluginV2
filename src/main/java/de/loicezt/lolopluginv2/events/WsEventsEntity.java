@@ -70,10 +70,8 @@ public class WsEventsEntity implements Runnable, Listener {
     }
 
     public void run() {
-        List<World> worlds = Bukkit.getWorlds();
-        for (World world : worlds) {
-            List<Entity> el = world.getEntities();
-            for (Entity entity : el) {
+        for (World world : Bukkit.getWorlds()) {
+            for (Entity entity : world.getEntities()) {
                 Block block = entity.getWorld().getBlockAt(entity.getLocation());
                 if (block.getType() == Material.QUARTZ_SLAB) {
                     if (block.getBlockData() instanceof Waterlogged) {
