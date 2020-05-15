@@ -1,6 +1,7 @@
 package de.loicezt.lolopluginv2.events;
 
 import de.loicezt.lolopluginv2.main.PluginMain;
+import de.loicezt.lolopluginv2.types.LTimings;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Waterlogged;
@@ -13,13 +14,14 @@ import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class WsEventsEntity implements Runnable, Listener {
     public static float speed = 10f;
-    public static List<Entity> watersliding = new ArrayList<Entity>();
-    World world = Bukkit.getWorld("world");
-
+    public static Set<Entity> watersliding = new HashSet<Entity>();
+    public static List<LTimings> timings = new ArrayList<LTimings>();
 
     public static void addEntity(Entity entity) {
         Vector dir = entity.getLocation().getDirection();
@@ -43,7 +45,7 @@ public class WsEventsEntity implements Runnable, Listener {
         entity.setVelocity(entity.getVelocity().add(push));
     }
 
-    public static List<Entity> getPlayers() {
+    public static Set<Entity> getWatersliding() {
         return watersliding;
     }
 
@@ -71,31 +73,33 @@ public class WsEventsEntity implements Runnable, Listener {
 
     public void run() {
         for (World world : Bukkit.getWorlds()) {
-            for (Entity entity : world.getEntities()) {
-                Block block = entity.getWorld().getBlockAt(entity.getLocation());
-                if (block.getType() == Material.QUARTZ_SLAB) {
-                    if (block.getBlockData() instanceof Waterlogged) {
-                        Waterlogged w = (Waterlogged) block.getBlockData();
-                        if (w.isWaterlogged()) {
-                            addEntity(entity);
-                            if (entity instanceof Player) {
-                                Player p = (Player) entity;
-                                if (p.getVehicle() == null) {
-                                    p.setGliding(true);
-                                } else {
-                                    removeEntity(entity);
+            for (Entity entity : world.getLivingEntities()) {
+
+                if (world.isChunkLoaded(entity.getLocation().getBlockX() / 16, entity.getLocation().getBlockY() / 16)) {
+                    Block block = entity.getLocation().getBlock();
+                    if (block.getType() == Material.QUARTZ_SLAB) {
+                        if (block.getBlockData() instanceof Waterlogged) {
+                            Waterlogged w = (Waterlogged) block.getBlockData();
+                            if (w.isWaterlogged()) {
+                                addEntity(entity);
+                                if (entity instanceof Player) {
+                                    Player p = (Player) entity;
+                                    if (p.getVehicle() == null) {
+                                        p.setGliding(true);
+                                    } else {
+                                        removeEntity(entity);
+                                    }
                                 }
+                                world.spawnParticle(Particle.FALLING_WATER, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .5, .5, .5);
+                                world.spawnParticle(Particle.SNOWBALL, entity.getLocation(), Math.round(0.5f * PluginMain.getWsPartMult()), 0.0, 0.0, 0.0);
+                                world.spawnParticle(Particle.WATER_BUBBLE, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .2, .1, .2, .5);
                             }
-                            world.spawnParticle(Particle.FALLING_WATER, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .5, .5, .5);
-                            world.spawnParticle(Particle.SNOWBALL, entity.getLocation(), Math.round(0.5f * PluginMain.getWsPartMult()), 0.0, 0.0, 0.0);
-                            world.spawnParticle(Particle.WATER_BUBBLE, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .2, .1, .2, .5);
+                        } else {
+                            removeEntity(entity);
                         }
                     } else {
                         removeEntity(entity);
-
                     }
-                } else {
-                    removeEntity(entity);
                 }
             }
         }
