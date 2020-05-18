@@ -9,79 +9,91 @@ commands:
   lolo:
     description: The main command of the loloPlugin V2
     usage: /lolo
-    permission: loloplugin.cmd.lolo
+    permission: loloplugin.cmd.basic.lolo
   glide:
-    description: makes the player glide
+    description: Makes the player glide
     usage: /glide
-    permission: loloplugin.cmd.glide
+    permission: loloplugin.cmd.admin.glide
   unglide:
-    description: keeps the player from gliding
+    description: Keeps the player from gliding
     usage: /unglide
-    permission: loloplugin.cmd.unglide
+    permission: loloplugin.cmd.admin.unglide
   eg:
-    description: enables gliding on the server
+    description: Enables gliding on the server
     usage: /eg
-    permission: loloplugin.cmd.eg
+    permission: loloplugin.cmd.admin.eg
   dg:
-    description: disables gliding on the server
+    description: Disables gliding on the server
     usage: /dg
-    permission: loloplugin.cmd.dg
+    permission: loloplugin.cmd.admin.dg
   sws:
-    description: sets the watersliding speed - default is 10
+    description: Sets the watersliding speed - default is 10
     usage: /sws <speed>
-    permission: loloplugin.cmd.sws
+    permission: loloplugin.cmd.admin.sws
   wsp:
-    description: sets the particle amount multiplier - default is 10
+    description: Sets the particle amount multiplier - default is 10
     usage: /wsp <amount>
-    permission: loloplugin.cmd.wsp
+    permission: loloplugin.cmd.admin.wsp
   propulsate:
-    description: propulsates you to the given speed
+    description: Propulsates you to the given speed
     usage: /propulsate <speed>
-    permission: loloplugin.cmd.propulsate
+    permission: loloplugin.cmd.admin.propulsate
   setdebug:
-    description: sets the debug mode
+    description: Sets the debug mode
     usage: /setdebug <true or false>
-    permission: loloplugin.cmd.setdebug
+    permission: loloplugin.cmd.admin.setdebug
   setannoy:
-    description: sets the annoy mode
+    description: Sets the annoy mode
     usage: /setannoy <true or false>
-    permission: loloplugin.cmd.setannoy
+    permission: loloplugin.cmd.admin.setannoy
   ice:
-    description: send the SWAGGIEST message ever
+    description: Send the SWAGGIEST message ever
     usage: /ice
   mobdiv:
-    description: allows the mob diversifications (mobs spawns with randoms attributes)
+    description: Allows the mob diversifications (mobs spawns with randoms attributes)
     usage: /mobdiv <true or false>
-    permission: loloplugin.cmd.ice
+    permission: loloplugin.cmd.admin.ice
   srd:
-    description: summon rideable dolphin
+    description: Summons a rideable dolphin
     usage: /srd
-    permission: loloplugin.cmd.srd
+    permission: loloplugin.cmd.admin.srd
   ms:
-    description: Multispawn
-    usage: /ms
-    permission: loloplugin.cmd.ms
+    description: Multispawn - spawn multiple entities at once
+    usage: /ms <entity> <number> <step>
+    permission: loloplugin.cmd.admin.ms
   cms:
-    description: cancel all current multispawn tasks
+    description: Cancel all current multispawn tasks
     usage: /cms
-    permission: loloplugin.cmd.cms
+    permission: loloplugin.cmd.admin.cms
   amw:
-    description: AddMyWorld
+    description: Adds a world dedicated world to you (if it wasn't already created) and teleports you to this world.
     usage: /amw
-    permission: loloplugin.cmd.amw
+    permission: loloplugin.cmd.basic.amw
   lobby:
-    description: Return to lobby
+    description: Teleports you to the lobby
     usage: /lobby
-    permission: loloplugin.cmd.lobby
+    permission: loloplugin.cmd.basic.lobby
   fbc:
-    description: Go to the freebuild server
+    description: Teleports you to the freebuild server
     usage: /fbc
-    permission: loloplugin.cmd.fbc
+    permission: loloplugin.cmd.basic.fbc
   bs:
-    description: allows sometimes boss to spawn
+    description: Allows sometimes bosses to spawn
     usage: /bs <true or false> <frequency>
-    permission: loloplugin.cmd.bs
+    permission: loloplugin.cmd.admin.bs
   survival:
     description: Teleports you to the survival world
     usage: /survival
-    permission: loloplugin.cmd.survival
+    permission: loloplugin.cmd.basic.survival
+  updatesl:
+    description: Updates the sign list in the lobby
+    usage: /updatesl
+    permission: loloplugin.cmd.basic.usl
+  wparam:
+    description: set any world parameter like visibility
+    usage: /wparam <key> <value>
+    permission: loloplugin.cmd.basic.wparam
+  visit:
+    description: Visit another players world
+    usage: /visit <Player name>
+    permission: loloplugin.cmd.basic.visit
