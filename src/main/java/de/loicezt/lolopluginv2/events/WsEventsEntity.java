@@ -1,7 +1,6 @@
 package de.loicezt.lolopluginv2.events;
 
 import de.loicezt.lolopluginv2.main.PluginMain;
-import de.loicezt.lolopluginv2.types.LTimings;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Waterlogged;
@@ -13,15 +12,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class WsEventsEntity implements Runnable, Listener {
     public static float speed = 10f;
     public static Set<Entity> watersliding = new HashSet<Entity>();
-    public static List<LTimings> timings = new ArrayList<LTimings>();
 
     public static void addEntity(Entity entity) {
         Vector dir = entity.getLocation().getDirection();
