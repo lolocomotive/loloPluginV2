@@ -2,6 +2,7 @@ package de.loicezt.lolopluginv2.cmd.multiworld;
 
 import de.loicezt.lolopluginv2.main.PluginMain;
 import de.loicezt.lolopluginv2.types.PlayerWorld;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,6 +25,7 @@ public class WorldParam implements CommandExecutor {
                             }
                         }
                         break;
+
                     case "message":
                     case "m":
                         for (PlayerWorld pw : PluginMain.getPlayerWorlds()) {
@@ -34,10 +36,36 @@ public class WorldParam implements CommandExecutor {
                                 PluginMain.getInstance().saveConfig();
                             }
                         }
+                        break;
 
+                    case "difficulty":
+                    case "d":
+                        String d;
+                        switch (args[1]) {
+                            case "peaceful":
+                            case "0":
+                                d = "peaceful";
+                                break;
+                            case "easy":
+                            case "1":
+                                d = "easy";
+                                break;
+                            case "normal":
+                            case "2":
+                                d = "normal";
+                                break;
+                            case "hard":
+                            case "3":
+                                d = "hard";
+                                break;
+                            default:
+                                sender.sendMessage("§4invalid difficulty");
+                                return true;
+                        }
+                        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "mv modify set diff " + d + " " + "World_" + sender.getName());
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
-                sender.sendMessage("That's not how the command works !");
+                sender.sendMessage("§4Not Enough arguments!");
             }
         } else {
             sender.sendMessage("§4Sorry, you must be a player to execute this command!");
