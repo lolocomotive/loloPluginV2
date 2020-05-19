@@ -85,3 +85,6 @@ commands:
     description: Teleports you to the survival world
     usage: /survival
     permission: loloplugin.cmd.survival
+  manh:
+    description: beginns a man hunt
+    usage: /manh <player hunter> <player hunted>

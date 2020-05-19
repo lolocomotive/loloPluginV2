@@ -12,8 +12,10 @@ import de.loicezt.lolopluginv2.events.*;
 import fr.Iceknith.lolopluginv2.BossHandler;
 import fr.Iceknith.lolopluginv2.commands.BossSpawn;
 import fr.Iceknith.lolopluginv2.commands.CommandIce;
+import fr.Iceknith.lolopluginv2.commands.ManHunt;
 import fr.Iceknith.lolopluginv2.commands.MobD;
 import fr.Iceknith.lolopluginv2.event.MobEvents;
+import fr.Iceknith.lolopluginv2.event.TrackerEvent;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -109,6 +111,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         this.getCommand("fbc").setExecutor(new FreeBuildCommon());
         this.getCommand("bs").setExecutor(new BossSpawn());
         this.getCommand("survival").setExecutor(new Survival());
+        this.getCommand("manh").setExecutor(new ManHunt());
 
         //Register Event listeners
         getServer().getPluginManager().registerEvents(this, this);
@@ -118,6 +121,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new DolphinEvents(), this);
         getServer().getPluginManager().registerEvents(new MobEvents(), this);
         getServer().getPluginManager().registerEvents(new MWorldEvt(), this);
+        getServer().getPluginManager().registerEvents(new TrackerEvent(), this);
 
         BukkitScheduler s = getServer().getScheduler();
         //Register repeating tasks
