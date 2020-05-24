@@ -97,3 +97,7 @@ commands:
     description: Visit another players world
     usage: /visit <Player name>
     permission: loloplugin.cmd.basic.visit
+  lbackup:
+    description: custom backup system
+    usage: /lbackup all
+    permission: loloplugin.cmd.admin.backup

@@ -159,6 +159,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         this.getCommand("updatesl").setExecutor(new UpdateSignList());
         this.getCommand("wparam").setExecutor(new WorldParam());
         this.getCommand("visit").setExecutor(new Visit());
+        this.getCommand("lbackup").setExecutor(new Backup());
 
         //Register Event listeners
         getServer().getPluginManager().registerEvents(this, this);
