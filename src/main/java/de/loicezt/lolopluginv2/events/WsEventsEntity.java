@@ -5,6 +5,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
@@ -69,32 +70,35 @@ public class WsEventsEntity implements Runnable, Listener {
 
     public void run() {
         for (World world : Bukkit.getWorlds()) {
-            for (Entity entity : world.getLivingEntities()) {
-
-                if (world.isChunkLoaded(entity.getLocation().getBlockX() / 16, entity.getLocation().getBlockY() / 16)) {
-                    Block block = entity.getLocation().getBlock();
-                    if (block.getType() == Material.QUARTZ_SLAB) {
-                        if (block.getBlockData() instanceof Waterlogged) {
-                            Waterlogged w = (Waterlogged) block.getBlockData();
-                            if (w.isWaterlogged()) {
-                                addEntity(entity);
-                                if (entity instanceof Player) {
-                                    Player p = (Player) entity;
-                                    if (p.getVehicle() == null) {
-                                        p.setGliding(true);
-                                    } else {
-                                        removeEntity(entity);
+            for (Chunk c : world.getLoadedChunks()) {
+                for (Entity entity : c.getEntities()) {
+                    if (entity instanceof LivingEntity) {
+                        if (world.isChunkLoaded(entity.getLocation().getBlockX() / 16, entity.getLocation().getBlockY() / 16)) {
+                            Block block = entity.getLocation().getBlock();
+                            if (block.getType() == Material.QUARTZ_SLAB) {
+                                if (block.getBlockData() instanceof Waterlogged) {
+                                    Waterlogged w = (Waterlogged) block.getBlockData();
+                                    if (w.isWaterlogged()) {
+                                        addEntity(entity);
+                                        if (entity instanceof Player) {
+                                            Player p = (Player) entity;
+                                            if (p.getVehicle() == null) {
+                                                p.setGliding(true);
+                                            } else {
+                                                removeEntity(entity);
+                                            }
+                                        }
+                                        world.spawnParticle(Particle.FALLING_WATER, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .5, .5, .5);
+                                        world.spawnParticle(Particle.SNOWBALL, entity.getLocation(), Math.round(0.5f * PluginMain.getWsPartMult()), 0.0, 0.0, 0.0);
+                                        world.spawnParticle(Particle.WATER_BUBBLE, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .2, .1, .2, .5);
                                     }
+                                } else {
+                                    removeEntity(entity);
                                 }
-                                world.spawnParticle(Particle.FALLING_WATER, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .5, .5, .5);
-                                world.spawnParticle(Particle.SNOWBALL, entity.getLocation(), Math.round(0.5f * PluginMain.getWsPartMult()), 0.0, 0.0, 0.0);
-                                world.spawnParticle(Particle.WATER_BUBBLE, entity.getLocation(), Math.round(10f * PluginMain.getWsPartMult()), .2, .1, .2, .5);
+                            } else {
+                                removeEntity(entity);
                             }
-                        } else {
-                            removeEntity(entity);
                         }
-                    } else {
-                        removeEntity(entity);
                     }
                 }
             }
