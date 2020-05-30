@@ -50,7 +50,17 @@ public class Backup implements CommandExecutor, Runnable {
                 sender.sendMessage("Backing up all Worlds...");
                 new Thread(this).start();
                 s = sender;
+                Bukkit.broadcastMessage("§4Saving all Worlds! §f-§6 This §emay§6 cause some lag");
+                for (World w : Bukkit.getWorlds()) {
+                    s.sendMessage("Saving World " + w.getName() + "...");
+                    w.save();
+                }
+                Bukkit.broadcastMessage("§aDone saving all Worlds !");
                 break;
+            case "restore":
+                sender.sendMessage("restoring Backup for world:" + args[1]);
+                World w = Bukkit.getWorld(args[1]);
+                RestoreBackup.restore(w, sender);
             default:
                 sender.sendMessage("Couldn't find the option you were looking for");
         }
@@ -60,15 +70,13 @@ public class Backup implements CommandExecutor, Runnable {
     @Override
     public void run() {
         for (World w : Bukkit.getWorlds()) {
+
             s.sendMessage("Backing up World " + w.getName() + "...");
             String sourceFile = w.getName();
             LocalDateTime myDateObj = LocalDateTime.now();
             DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
-
             String formattedDate = myDateObj.format(myFormatObj);
             String cName = "Backups" + File.separator + "Worlds" + File.separator + w.getName() + File.separator + "Backup_" + w.getName() + "_" + formattedDate + ".zip";
-
-
             try {
                 new File("Backups" + File.separator + "Worlds" + File.separator + w.getName()).mkdirs();
                 File fileToZip = new File(sourceFile);
@@ -80,7 +88,7 @@ public class Backup implements CommandExecutor, Runnable {
                 fos.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                s.sendMessage("§4Something went horribly wrong while making the backups");
+                s.sendMessage("§4Something went wrong while making the backups");
                 StringWriter sw = new StringWriter();
                 e.printStackTrace(new PrintWriter(sw));
                 String exceptionAsString = sw.toString();
