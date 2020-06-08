@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DethSwap implements CommandExecutor {
+public class DeathSwap implements CommandExecutor {
 
     public static List<Player> p1 = new ArrayList<>();
     public static List<Player> p2 = new ArrayList<>();
@@ -24,7 +24,7 @@ public class DethSwap implements CommandExecutor {
                 if (Bukkit.getPlayerExact(args[1]) != null) {
                     p2.add(Bukkit.getPlayerExact(args[1]));
                 }
-                Bukkit.broadcastMessage("The deth swap has began");
+                Bukkit.broadcastMessage("The death swap has began");
             }
 
 
@@ -32,7 +32,7 @@ public class DethSwap implements CommandExecutor {
             commandSender.sendMessage("Not enough arguments ");
             commandSender.sendMessage("usage /swap <player 1> <player 2>");
         } catch (Exception e) {
-            commandSender.sendMessage("an error has occured");
+            commandSender.sendMessage("an error has occurred");
             commandSender.sendMessage("usage /swap <player 1> <player 2>");
 
         }

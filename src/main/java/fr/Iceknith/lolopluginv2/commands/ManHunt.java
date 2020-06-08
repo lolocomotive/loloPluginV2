@@ -30,7 +30,7 @@ public class ManHunt implements CommandExecutor {
             commandSender.sendMessage("Not enough arguments ");
             commandSender.sendMessage("usage /manh <player hunter> <player hunted>");
         } catch (Exception e) {
-            commandSender.sendMessage("an error has occured");
+            commandSender.sendMessage("an error has occurred");
             commandSender.sendMessage("usage /manh <player hunter> <player hunted>");
 
         }
