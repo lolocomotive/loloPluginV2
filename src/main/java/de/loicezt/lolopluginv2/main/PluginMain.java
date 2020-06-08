@@ -10,10 +10,8 @@ import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingParticleAmountMultiplier;
 import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingSpeed;
 import de.loicezt.lolopluginv2.events.*;
 import fr.Iceknith.lolopluginv2.BossHandler;
-import fr.Iceknith.lolopluginv2.commands.BossSpawn;
-import fr.Iceknith.lolopluginv2.commands.CommandIce;
-import fr.Iceknith.lolopluginv2.commands.ManHunt;
-import fr.Iceknith.lolopluginv2.commands.MobD;
+import fr.Iceknith.lolopluginv2.SwapHandler;
+import fr.Iceknith.lolopluginv2.commands.*;
 import fr.Iceknith.lolopluginv2.event.MobEvents;
 import fr.Iceknith.lolopluginv2.event.TrackerEvent;
 import net.luckperms.api.LuckPerms;
@@ -112,6 +110,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         this.getCommand("bs").setExecutor(new BossSpawn());
         this.getCommand("survival").setExecutor(new Survival());
         this.getCommand("manh").setExecutor(new ManHunt());
+        this.getCommand("swap").setExecutor(new DethSwap());
 
         //Register Event listeners
         getServer().getPluginManager().registerEvents(this, this);
@@ -122,6 +121,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new MobEvents(), this);
         getServer().getPluginManager().registerEvents(new MWorldEvt(), this);
         getServer().getPluginManager().registerEvents(new TrackerEvent(), this);
+        getServer().getPluginManager().registerEvents(new SwapHandler(), this);
 
         BukkitScheduler s = getServer().getScheduler();
         //Register repeating tasks
@@ -130,6 +130,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         s.scheduleSyncRepeatingTask(this, new Multispawn(), 0L, 0L);
         s.scheduleSyncRepeatingTask(this, new BossHandler(), 0L, 0L);
         s.scheduleSyncRepeatingTask(this, new GamemodeEvents(), 0L, 0L);
+        s.scheduleSyncRepeatingTask(this, new SwapHandler(), 0L, 0L);
     }
 
     public static void setWsSpeed(float wsSpeed) {

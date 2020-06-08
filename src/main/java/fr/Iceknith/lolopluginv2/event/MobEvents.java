@@ -17,6 +17,7 @@ import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class MobEvents implements Listener {
                                 int chance = r.nextInt(1) + 1;
                                 item.addEnchantment(Enchantment.PIERCING, 4);
                                 item.addEnchantment(Enchantment.MULTISHOT, 1);
-                                item.addEnchantment(Enchantment.QUICK_CHARGE, 3);
+                                item.addEnchantment(Enchantment.ARROW_INFINITE, 3);
                                 Objects.requireNonNull(livingEntity.getEquipment()).setItemInMainHand(item);
 
                             }
@@ -119,6 +120,16 @@ public class MobEvents implements Listener {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onMobDeth(EntityDeathEvent event) {
+        for (Entity boss : bossList) {
+            if (event.getEntity() == boss) {
+                event.getDrops().clear();
+                event.getDrops().add(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
             }
         }
     }
