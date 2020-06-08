@@ -133,11 +133,27 @@ public class PluginMain extends JavaPlugin implements Listener {
 
         getCommand("module").setExecutor(new de.loicezt.lolopluginv2.cmd.Module());
 
-        enabledModules.add(new Multiworld());
-        enabledModules.add(new Watersliding());
-        enabledModules.add(new Misc());
-        enabledModules.add(new Mobdiv());
-        enabledModules.add(new MiniGames());
+
+        for (String s : (List<String>) config.getList("modules")) {
+            switch (s) {
+                case "multiworld":
+                    enabledModules.add(new Multiworld());
+                    break;
+                case "miscellaneous":
+                    enabledModules.add(new Misc());
+                    break;
+                case "watersliding":
+                    enabledModules.add(new Watersliding());
+                    break;
+                case "mobdiversity":
+                    enabledModules.add(new Mobdiv());
+                    break;
+                case "minigames":
+                    enabledModules.add(new MiniGames());
+                    break;
+
+            }
+        }
 
         enabledModules.forEach((module) -> module.enable(this));
     }
