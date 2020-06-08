@@ -1,9 +1,6 @@
 package de.loicezt.lolopluginv2.main;
 
-import de.loicezt.lolopluginv2.modules.Misc;
-import de.loicezt.lolopluginv2.modules.Mobdiv;
-import de.loicezt.lolopluginv2.modules.Multiworld;
-import de.loicezt.lolopluginv2.modules.Watersliding;
+import de.loicezt.lolopluginv2.modules.*;
 import de.loicezt.lolopluginv2.types.Module;
 import de.loicezt.lolopluginv2.types.PlayerWorld;
 import org.bukkit.Bukkit;
@@ -114,7 +111,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         config.addDefault("moduleData.misc.annoy", false);
         config.addDefault("moduleData.watersliding.wsSpeed", 10.0f);
         config.addDefault("moduleData.watersliding.wsPartMult", 10.0f);
-        config.addDefault("modules", new String[]{"multiworld", "watersliding", "mobdiversity", "miscellaneous"});
+        config.addDefault("modules", new String[]{"multiworld", "watersliding", "mobdiversity", "miscellaneous", "minigames"});
         config.options().copyDefaults(true);
         saveConfig();
         debug = config.getBoolean("moduleData.misc.debug");
@@ -140,6 +137,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         enabledModules.add(new Watersliding());
         enabledModules.add(new Misc());
         enabledModules.add(new Mobdiv());
+        enabledModules.add(new MiniGames());
 
         enabledModules.forEach((module) -> module.enable(this));
     }
