@@ -1,54 +1,82 @@
 package de.loicezt.lolopluginv2.events;
 
+import de.loicezt.lolopluginv2.main.PluginMain;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.scheduler.BukkitScheduler;
 
 public class MWorldEvt implements Listener {
     @EventHandler
     public void onPlayerChangeWorld(PlayerChangedWorldEvent e) {
         Player p = e.getPlayer();
-        if (p.getWorld().getName().equals("world_nether")) {
-            if (e.getFrom().getName().equals("survie")) {
+        BukkitScheduler s = Bukkit.getScheduler();
+        switch (p.getWorld().getName()) {
+            case "world_nether":
+                if (e.getFrom().getName().equals("survie")) {
+                    s.runTaskLater(PluginMain.getInstance(), new Runnable() {
+                        public void run() {
+                            p.setGameMode(GameMode.SURVIVAL);
+                        }
+                    }, 1);
+                    Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set survival");
+                } else {
+                    p.sendMessage("§4For security reasons, you can only go to the nether from the survival world");
+                    p.performCommand("lobby");
+                }
+                break;
 
-            } else {
-                p.sendMessage("§4For security reasons, you can only go to the nether from the survival world");
-                p.performCommand("lobby");
-            }
-        }
-        if (p.getWorld().getName().equals("world_the_end")) {
-            if (e.getFrom().getName().equals("survie")) {
+            case "world_the_end":
+                if (e.getFrom().getName().equals("survie")) {
+                    s.runTaskLater(PluginMain.getInstance(), new Runnable() {
+                        public void run() {
+                            p.setGameMode(GameMode.SURVIVAL);
+                        }
+                    }, 1);
+                    Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set survival");
+                } else {
+                    p.sendMessage("§4For security reasons, you can only go to the end from the survival world");
+                    p.performCommand("lobby");
+                }
+                break;
+            case "world":
+                s.runTaskLater(PluginMain.getInstance(), new Runnable() {
+                    public void run() {
+                        p.setGameMode(GameMode.ADVENTURE);
+                    }
+                }, 1);
+                Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set lobby");
+                break;
+            case "survie":
+                s.runTaskLater(PluginMain.getInstance(), new Runnable() {
+                    public void run() {
+                        p.setGameMode(GameMode.SURVIVAL);
+                    }
+                }, 1);
+                Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set survival");
+                break;
 
-            } else {
-                p.sendMessage("§4For security reasons, you can only go to the end from the survival world");
-                p.performCommand("lobby");
-            }
+            case "FBC":
+                s.runTaskLater(PluginMain.getInstance(), new Runnable() {
+                    public void run() {
+                        p.setGameMode(GameMode.CREATIVE);
+                    }
+                }, 1);
+                Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set default");
+                break;
+
         }
-        if (p.getWorld().getName().equals("world")) {
-            p.setGameMode(GameMode.ADVENTURE);
-        }
-        if (p.getWorld().getName().equals("survie")) {
-            p.setGameMode(GameMode.SURVIVAL);
-            Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set survival");
-        }
-        if (p.getWorld().getName().equals("world_nether")) {
-            p.setGameMode(GameMode.SURVIVAL);
-            Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set survival");
-        }
-        if (p.getWorld().getName().equals("world_the_end")) {
-            p.setGameMode(GameMode.SURVIVAL);
-            Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set survival");
-        }
-        if (p.getWorld().getName().equals("World_" + p.getName().replace(" ", "_"))) {
-            p.setGameMode(GameMode.CREATIVE);
+        if (p.getWorld().getName().startsWith("World_")) {
+            s.runTaskLater(PluginMain.getInstance(), new Runnable() {
+                public void run() {
+                    p.setGameMode(GameMode.CREATIVE);
+                }
+            }, 1);
             Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set default");
         }
-        if (p.getWorld().getName().equals("FBC")) {
-            p.setGameMode(GameMode.CREATIVE);
-            Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + p.getName() + " parent set default");
-        }
+
     }
 }
