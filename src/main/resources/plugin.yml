@@ -18,14 +18,6 @@ commands:
     description: Keeps the player from gliding
     usage: /unglide
     permission: loloplugin.cmd.admin.unglide
-  eg:
-    description: Enables gliding on the server
-    usage: /eg
-    permission: loloplugin.cmd.admin.eg
-  dg:
-    description: Disables gliding on the server
-    usage: /dg
-    permission: loloplugin.cmd.admin.dg
   sws:
     description: Sets the watersliding speed - default is 10
     usage: /sws <speed>
@@ -38,14 +30,6 @@ commands:
     description: Propulsates you to the given speed
     usage: /propulsate <speed>
     permission: loloplugin.cmd.admin.propulsate
-  setdebug:
-    description: Sets the debug mode
-    usage: /setdebug <true or false>
-    permission: loloplugin.cmd.admin.setdebug
-  setannoy:
-    description: Sets the annoy mode
-    usage: /setannoy <true or false>
-    permission: loloplugin.cmd.admin.setannoy
   ice:
     description: Send the SWAGGIEST message ever
     usage: /ice
@@ -101,3 +85,10 @@ commands:
     description: custom backup system
     usage: /lbackup all
     permission: loloplugin.cmd.admin.backup
+  misc:
+    description: disable or enable certain feature of the misc module (the old way)
+    usage: /misc <enable|disable> <module>
+    permission: loloplugin.cmd.admin.misc
+  module:
+    description: enable or disable a module
+    usage: /module <enable|disable> <module>

@@ -5,17 +5,13 @@ import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-
 public class GamemodeEvents implements Runnable {
-    public static List<World> worlds = Bukkit.getWorlds();
-
     public void run() {
-        for (World w : worlds) {
+        for (World w : Bukkit.getWorlds()) {
             for (Player p : w.getPlayers()) {
                 if (p.getWorld().getName().equals("world")) {
                     if (!p.getGameMode().equals(GameMode.ADVENTURE)) {
-                        //p.setGameMode(GameMode.ADVENTURE);
+                        p.setGameMode(GameMode.ADVENTURE);
                     }
                 }
                 if (p.getWorld().getName().equals("survie")) {
@@ -38,7 +34,7 @@ public class GamemodeEvents implements Runnable {
                         p.setGameMode(GameMode.CREATIVE);
                     }
                 }
-                if (p.getWorld().getName().equals("World_" + p.getName())) {
+                if (p.getWorld().getName().startsWith("World_")) {
                     if (!p.getGameMode().equals(GameMode.CREATIVE)) {
                         p.setGameMode(GameMode.CREATIVE);
                     }
