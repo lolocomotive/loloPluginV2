@@ -1,17 +1,11 @@
 package de.loicezt.lolopluginv2.main;
 
-import de.loicezt.lolopluginv2.cmd.*;
-import de.loicezt.lolopluginv2.cmd.gliding.*;
-import de.loicezt.lolopluginv2.cmd.multiworld.*;
-import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingParticleAmountMultiplier;
-import de.loicezt.lolopluginv2.cmd.ws.SetWaterslidingSpeed;
-import de.loicezt.lolopluginv2.events.*;
+import de.loicezt.lolopluginv2.modules.Misc;
+import de.loicezt.lolopluginv2.modules.Mobdiv;
+import de.loicezt.lolopluginv2.modules.Multiworld;
+import de.loicezt.lolopluginv2.modules.Watersliding;
+import de.loicezt.lolopluginv2.types.Module;
 import de.loicezt.lolopluginv2.types.PlayerWorld;
-import fr.Iceknith.lolopluginv2.BossHandler;
-import fr.Iceknith.lolopluginv2.commands.BossSpawn;
-import fr.Iceknith.lolopluginv2.commands.CommandIce;
-import fr.Iceknith.lolopluginv2.commands.MobD;
-import fr.Iceknith.lolopluginv2.event.MobEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -21,7 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +29,7 @@ public class PluginMain extends JavaPlugin implements Listener {
     private static float wsPartMult;
     private static PluginMain instance;
     private static List<PlayerWorld> playerWorlds = new ArrayList<>();
+    private static ArrayList<Module> enabledModules = new ArrayList<>();
 
     FileConfiguration config = getConfig();
 
@@ -61,13 +55,13 @@ public class PluginMain extends JavaPlugin implements Listener {
 
     public static void setWsSpeed(float wsSpeed) {
         PluginMain.wsSpeed = wsSpeed;
-        getInstance().config.set("wsSpeed", wsSpeed);
+        getInstance().config.set("moduleData.misc.wsSpeed", wsSpeed);
         getInstance().saveConfig();
     }
 
     public static void setGliding(boolean gliding) {
         PluginMain.gliding = gliding;
-        getInstance().config.set("gliding", gliding);
+        getInstance().config.set("moduleData.misc.gliding", gliding);
         getInstance().saveConfig();
     }
 
@@ -85,7 +79,7 @@ public class PluginMain extends JavaPlugin implements Listener {
 
     public static void setDebug(boolean debug) {
         PluginMain.debug = debug;
-        getInstance().config.set("debug", debug);
+        getInstance().config.set("moduleData.misc.debug", debug);
         getInstance().saveConfig();
     }
 
@@ -95,7 +89,7 @@ public class PluginMain extends JavaPlugin implements Listener {
 
     public static void setAnnoy(boolean annoy) {
         PluginMain.annoy = annoy;
-        getInstance().config.set("annoy", annoy);
+        getInstance().config.set("moduleData.misc.annoy", annoy);
         getInstance().saveConfig();
     }
 
@@ -115,69 +109,39 @@ public class PluginMain extends JavaPlugin implements Listener {
     public void onEnable() {
         //config handling
         instance = this;
-        config.addDefault("gliding", false);
-        config.addDefault("debug", false);
-        config.addDefault("annoy", false);
-        config.addDefault("wsSpeed", 10.0f);
-        config.addDefault("wsPartMult", 10.0f);
+        config.addDefault("moduleData.misc.gliding", false);
+        config.addDefault("moduleData.misc.debug", false);
+        config.addDefault("moduleData.misc.annoy", false);
+        config.addDefault("moduleData.watersliding.wsSpeed", 10.0f);
+        config.addDefault("moduleData.watersliding.wsPartMult", 10.0f);
+        config.addDefault("modules", new String[]{"multiworld", "watersliding", "mobdiversity", "miscellaneous"});
         config.options().copyDefaults(true);
         saveConfig();
-        debug = config.getBoolean("debug");
-        annoy = config.getBoolean("annoy");
-        gliding = config.getBoolean("gliding");
-        annoy = config.getBoolean("annoy");
-        wsPartMult = (float) config.getDouble("wsPartMult");
-        wsSpeed = (float) config.getDouble("wsSpeed");
+        debug = config.getBoolean("moduleData.misc.debug");
+        annoy = config.getBoolean("moduleData.misc.annoy");
+        gliding = config.getBoolean("moduleData.misc.gliding");
+        annoy = config.getBoolean("moduleData.misc.annoy");
+        wsPartMult = (float) config.getDouble("moduleData.watersliding.wsPartMult");
+        wsSpeed = (float) config.getDouble("moduleData.watersliding.wsSpeed");
         Server server = Bukkit.getServer();
         server.getLogger().log(Level.INFO, "[loloPluginV2] debug : " + String.valueOf(debug));
         server.getLogger().log(Level.INFO, "[loloPluginV2] annoy : " + String.valueOf(annoy));
         server.getLogger().log(Level.INFO, "[loloPluginV2] gliding : " + String.valueOf(gliding));
 
+        List<String> moduleString = (List<String>) config.getList("modules");
 
-        //Register all the commands
+        for (String tmpModule : moduleString) {
+            server.getLogger().log(Level.INFO, "[loloPluginV2] Adding module " + tmpModule);
+        }
 
-        this.getCommand("lolo").setExecutor(new CmdMain());
-        this.getCommand("glide").setExecutor(new GlideCmd());
-        this.getCommand("unglide").setExecutor(new UnGlide());
-        this.getCommand("eg").setExecutor(new EnableGliding());
-        this.getCommand("dg").setExecutor(new DisableGliding());
-        this.getCommand("sws").setExecutor(new SetWaterslidingSpeed());
-        this.getCommand("wsp").setExecutor(new SetWaterslidingParticleAmountMultiplier());
-        this.getCommand("propulsate").setExecutor(new Propulsate());
-        this.getCommand("setdebug").setExecutor(new SetDebug());
-        this.getCommand("setannoy").setExecutor(new SetAnnoy());
-        this.getCommand("ice").setExecutor(new CommandIce());
-        this.getCommand("mobdiv").setExecutor(new MobD());
-        this.getCommand("srd").setExecutor(new SummonRideableDolphin());
-        this.getCommand("ms").setExecutor(new Multispawn());
-        this.getCommand("cms").setExecutor(new Cancelms());
-        this.getCommand("amw").setExecutor(new AddMyWorld());
-        this.getCommand("lobby").setExecutor(new Lobby());
-        this.getCommand("fbc").setExecutor(new FreeBuildCommon());
-        this.getCommand("bs").setExecutor(new BossSpawn());
-        this.getCommand("survival").setExecutor(new Survival());
-        this.getCommand("updatesl").setExecutor(new UpdateSignList());
-        this.getCommand("wparam").setExecutor(new WorldParam());
-        this.getCommand("visit").setExecutor(new Visit());
-        this.getCommand("lbackup").setExecutor(new Backup());
+        getCommand("module").setExecutor(new de.loicezt.lolopluginv2.cmd.Module());
 
-        //Register Event listeners
-        getServer().getPluginManager().registerEvents(this, this);
-        getServer().getPluginManager().registerEvents(new GlideCmd(), this);
-        getServer().getPluginManager().registerEvents(new WsEventsEntity(), this);
-        getServer().getPluginManager().registerEvents(new AnnoyModeEvt(), this);
-        getServer().getPluginManager().registerEvents(new DolphinEvents(), this);
-        getServer().getPluginManager().registerEvents(new MobEvents(), this);
-        getServer().getPluginManager().registerEvents(new MWorldEvt(), this);
-        getServer().getPluginManager().registerEvents(new ServerEvents(), this);
+        enabledModules.add(new Multiworld());
+        enabledModules.add(new Watersliding());
+        enabledModules.add(new Misc());
+        enabledModules.add(new Mobdiv());
 
-        BukkitScheduler s = getServer().getScheduler();
-        //Register repeating tasks
-        s.scheduleSyncRepeatingTask(this, new WsEventsEntity(), 0L, 0L);
-        s.scheduleSyncRepeatingTask(this, new DolphinEvents(), 0L, 0L);
-        s.scheduleSyncRepeatingTask(this, new Multispawn(), 0L, 0L);
-        s.scheduleSyncRepeatingTask(this, new BossHandler(), 0L, 0L);
-        s.scheduleSyncRepeatingTask(this, new GamemodeEvents(), 0L, 0L);
+        enabledModules.forEach((module) -> module.enable(this));
     }
 
     @Override
