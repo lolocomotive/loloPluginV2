@@ -13,13 +13,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AddMyWorld implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
+        MultiverseCore core = JavaPlugin.getPlugin(MultiverseCore.class);
+        MVWorldManager mgr = core.getMVWorldManager();
         if (sender instanceof Player) {
             Player p = (Player) sender;
             String wName = "World_" + p.getName();
             wName = wName.replace(" ", "_");
-            MultiverseCore core = JavaPlugin.getPlugin(MultiverseCore.class);
-            MVWorldManager mgr = core.getMVWorldManager();
+
             MultiverseWorld parentWorld = mgr.getMVWorld("world");
             if (!mgr.isMVWorld(wName)) {
                 p.sendMessage("Creating your world...");
