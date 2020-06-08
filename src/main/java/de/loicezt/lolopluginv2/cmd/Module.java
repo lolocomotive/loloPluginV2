@@ -51,6 +51,13 @@ public class Module implements CommandExecutor {
                         }
                     }
                     break;
+                    case "minigames": {
+                        String id = "minigames";
+                        if (!enabledModules.contains(id)) {
+                            enabledModules.add(id);
+                        }
+                    }
+                    break;
                 }
                 break;
             case "disable":
@@ -82,6 +89,13 @@ public class Module implements CommandExecutor {
                     break;
                     case "multiworld": {
                         String id = "multiworld";
+                        if (enabledModules.contains(id)) {
+                            enabledModules.remove(id);
+                        }
+                    }
+                    break;
+                    case "minigames": {
+                        String id = "minigames";
                         if (enabledModules.contains(id)) {
                             enabledModules.remove(id);
                         }
