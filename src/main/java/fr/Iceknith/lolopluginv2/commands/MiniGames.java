@@ -30,12 +30,12 @@ public class MiniGames implements CommandExecutor {
                         for (World worldSearcher : editing) {
                             i2++;
                             if (((Player) commandSender).getWorld() == worldSearcher) {
-                                types.set(i2, args[2]);
+                                types.set(i2, args[1]);
                             } else {
                                 i++;
                                 if (i == editing.size()) {
                                     editing.add(((Player) commandSender).getWorld());
-                                    types.add(args[2]);
+                                    types.add(args[1]);
                                     minPlayer.add(null);
                                     maxPlayer.add(null);
                                     playerSpawnPos.add(null);
@@ -56,7 +56,7 @@ public class MiniGames implements CommandExecutor {
                         for (World worldSearcher : editing) {
                             i2++;
                             if (((Player) commandSender).getWorld() == worldSearcher) {
-                                minPlayer.set(i2, Integer.valueOf(args[2]));
+                                minPlayer.set(i2, Integer.valueOf(args[1]));
                             } else {
                                 i++;
                                 if (i == editing.size()) {
@@ -78,7 +78,7 @@ public class MiniGames implements CommandExecutor {
                         for (World worldSearcher : editing) {
                             i2++;
                             if (((Player) commandSender).getWorld() == worldSearcher) {
-                                maxPlayer.set(i2, Integer.valueOf(args[2]));
+                                maxPlayer.set(i2, Integer.valueOf(args[1]));
                                 while (playerSpawnPos.get(i2).size() + 1 == maxPlayer.get(i)) {
                                     if (playerSpawnPos.get(i2).size() > maxPlayer.get(i)) {
                                         playerSpawnPos.get(i2).remove(playerSpawnPos.get(i2).size() - 1);
@@ -108,9 +108,9 @@ public class MiniGames implements CommandExecutor {
                             i2++;
                             if (((Player) commandSender).getWorld() == worldSearcher) {
                                 if (maxPlayer.get(i2) != null) {
-                                    if (maxPlayer.get(i2) > Integer.valueOf(args[2])) {
-                                        if (Integer.valueOf(args[2]) > 0) {
-                                            playerSpawnPos.get(i2).set(Integer.valueOf(args[2]), ((Player) commandSender).getLocation());
+                                    if (maxPlayer.get(i2) > Integer.valueOf(args[1])) {
+                                        if (Integer.valueOf(args[1]) > 0) {
+                                            playerSpawnPos.get(i2).set(Integer.valueOf(args[1]), ((Player) commandSender).getLocation());
                                         }
                                     }
                                 } else {
