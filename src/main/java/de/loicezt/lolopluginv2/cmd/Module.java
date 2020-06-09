@@ -58,7 +58,9 @@ public class Module implements CommandExecutor {
                         }
                     }
                     break;
+
                 }
+                sender.sendMessage("Module §e" + args[1] + "§f will be enabled at next reload/startup");
                 break;
             case "disable":
                 switch (args[1]) {
@@ -102,6 +104,7 @@ public class Module implements CommandExecutor {
                     }
                     break;
                 }
+                sender.sendMessage("Module §e" + args[1] + "§f will be disabled at next reload/startup");
                 break;
 
 
