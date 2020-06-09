@@ -21,8 +21,6 @@ public class MiniGames implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         try {
-
-
             switch (args[0]) {
                 //Set Mini Game Mode
                 case "setGame":
