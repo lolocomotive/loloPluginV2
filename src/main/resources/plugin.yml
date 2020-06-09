@@ -101,5 +101,9 @@ commands:
     description: disable or enable certain feature of the misc module (the old way)
     usage: /misc <enable|disable> <module>
     permission: loloplugin.cmd.admin.misc
+  game:
+    description: configure/submit mini games
+    usage: /game <setGame|minPlayer|maxPlayer|playerSpawn> <options>
+    permission: loloplugin.cmd.admin.game
 
 

@@ -12,5 +12,6 @@ public class MiniGames implements Module {
     public void enable(JavaPlugin instance) {
         instance.getCommand("manh").setExecutor(new ManHunt());
         instance.getCommand("swap").setExecutor(new DeathSwap());
+        instance.getCommand("game").setExecutor(new fr.Iceknith.lolopluginv2.commands.MiniGames());
     }
 }
