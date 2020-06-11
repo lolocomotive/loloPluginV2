@@ -1,14 +1,23 @@
 package fr.Iceknith.lolopluginv2.commands;
 
+import de.loicezt.lolopluginv2.cmd.Backup;
+import de.loicezt.lolopluginv2.main.PluginMain;
+import de.loicezt.lolopluginv2.types.MiniGameTypes;
+import de.loicezt.lolopluginv2.types.PlayerWorld;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipOutputStream;
 
 public class MiniGames implements CommandExecutor {
     public static List<World> editing = new ArrayList<>();
@@ -19,160 +28,181 @@ public class MiniGames implements CommandExecutor {
     public static List<World> submitting = new ArrayList<>();
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        try {
-            switch (args[0]) {
-                //Set Mini Game Mode
-                case "setGame":
-                    if (commandSender instanceof Player) {
-                        int i = -1;
-                        int i2 = -1;
-                        for (World worldSearcher : editing) {
-                            i2++;
-                            if (((Player) commandSender).getWorld() == worldSearcher) {
-                                types.set(i2, args[1]);
-                            } else {
-                                i++;
-                                if (i == editing.size()) {
-                                    editing.add(((Player) commandSender).getWorld());
-                                    types.add(args[1]);
-                                    minPlayer.add(null);
-                                    maxPlayer.add(null);
-                                    playerSpawnPos.add(null);
-                                }
-                            }
+    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        PlayerWorld pw = null;
+        for (PlayerWorld tmp : PluginMain.getPlayerWorlds()) {
+            if (tmp.getName().equals(sender.getName())) {
+                pw = tmp;
+                break;
+            }
+        }
+        FileConfiguration config = PluginMain.getInstance().getConfig();
+        if (sender instanceof Player) {
+            try {
+                switch (args[0]) {
+                    //Set Mini Game Mode
+                    case "setGame":
+                        switch (args[1].toLowerCase()) {
+                            case "normal":
+                                pw.setType(MiniGameTypes.NORMAL);
+                                break;
+                            case "air":
+                                pw.setType(MiniGameTypes.AIR);
+                                break;
+                            case "water":
+                                pw.setType(MiniGameTypes.WATER);
+                                break;
+                            case "earth":
+                                pw.setType(MiniGameTypes.EARTH);
+                                break;
+                            case "fire":
+                                pw.setType(MiniGameTypes.FIRE);
+                                break;
+                            default:
+                                sender.sendMessage("§4Invalid game type: " + args[1]);
+                                return true;
                         }
-                    } else {
-                        commandSender.sendMessage("You have to be a player to execute this command");
-                    }
-                    break;
+                        config.set("playerWorldData." + pw.getName() + ".gameType", pw.getType().toString());
+                        PluginMain.getInstance().saveConfig();
+                        sender.sendMessage("§aSet the game type to " + pw.getType().toString().toLowerCase());
+                        break;
 
-
-                //Minimum Player
-                case "minPlayer":
-                    if (commandSender instanceof Player) {
-                        int i = -1;
-                        int i2 = -1;
-                        for (World worldSearcher : editing) {
-                            i2++;
-                            if (((Player) commandSender).getWorld() == worldSearcher) {
-                                minPlayer.set(i2, Integer.valueOf(args[1]));
-                            } else {
-                                i++;
-                                if (i == editing.size()) {
-                                    commandSender.sendMessage("You have to give a type to this mini game world to execute this command");
-                                }
-                            }
+                    //Minimum Player
+                    case "minPlayer":
+                        try {
+                            pw.setMinPlayer(Byte.parseByte(args[1]));
+                        } catch (Exception e) {
+                            sender.sendMessage("§4Invalid number: " + args[1]);
+                            return true;
                         }
-                    } else {
-                        commandSender.sendMessage("You have to be a player to execute this command");
-                    }
-                    break;
+                        config.set("playerWorldData." + pw.getName() + ".minGamePlayer", pw.getMinPlayer());
+                        PluginMain.getInstance().saveConfig();
+                        sender.sendMessage("§aSet the game minimum players to " + pw.getMinPlayer());
+                        break;
 
 
-                //Maximum PLayer
-                case "maxPlayer":
-                    if (commandSender instanceof Player) {
-                        int i = -1;
-                        int i2 = -1;
-                        for (World worldSearcher : editing) {
-                            i2++;
-                            if (((Player) commandSender).getWorld() == worldSearcher) {
-                                maxPlayer.set(i2, Integer.valueOf(args[1]));
-                                while (playerSpawnPos.get(i2).size() + 1 == maxPlayer.get(i)) {
-                                    if (playerSpawnPos.get(i2).size() > maxPlayer.get(i)) {
-                                        playerSpawnPos.get(i2).remove(playerSpawnPos.get(i2).size() - 1);
-                                    }
-                                    if (playerSpawnPos.get(i2).size() < maxPlayer.get(i)) {
-                                        playerSpawnPos.add(null);
-                                    }
-                                }
-                            } else {
-                                i++;
-                                if (i == editing.size()) {
-                                    commandSender.sendMessage("You have to give a type to this mini game world to execute this command");
-                                }
-                            }
+                    //Maximum PLayer
+                    case "maxPlayer":
+                        try {
+                            pw.setMaxPlayer(Byte.parseByte(args[1]));
+                        } catch (Exception e) {
+                            sender.sendMessage("§4Invalid number: " + args[1]);
+                            return true;
                         }
-                    } else {
-                        commandSender.sendMessage("You have to be a player to execute this command");
-                    }
+                        config.set("playerWorldData." + pw.getName() + ".maxGamePlayer", pw.getMaxPlayer());
+                        PluginMain.getInstance().saveConfig();
+                        sender.sendMessage("§aSet the game maximum players to " + pw.getMaxPlayer());
+                        break;
 
 
                     //Player Spawn
-                case "playerSpawn":
-                    if (commandSender instanceof Player) {
-                        int i = -1;
-                        int i2 = -1;
-                        for (World worldSearcher : editing) {
-                            i2++;
-                            if (((Player) commandSender).getWorld() == worldSearcher) {
-                                if (maxPlayer.get(i2) != null) {
-                                    if (maxPlayer.get(i2) > Integer.valueOf(args[1])) {
-                                        if (Integer.valueOf(args[1]) > 0) {
-                                            playerSpawnPos.get(i2).set(Integer.valueOf(args[1]), ((Player) commandSender).getLocation());
-                                        }
-                                    }
-                                } else {
-                                    commandSender.sendMessage("You have to give a maximum player amount to this mini game world to execute this command");
-                                }
-                            } else {
-                                i++;
-                                if (i == editing.size()) {
-                                    commandSender.sendMessage("You have to give a type to this mini game world to execute this command");
-                                }
-                            }
+                    case "playerSpawn":
+                        try {
+                            pw.getPlayerLoc().size();
+                        } catch (NullPointerException e) {
+                            pw.setPlayerLoc(new ArrayList<>());
                         }
-
-                    } else {
-                        commandSender.sendMessage("You have to be a player to execute this command");
-                    }
-                    break;
-
-
-                //Submitting
-                case "submit":
-                    if (commandSender instanceof Player) {
-                        int i = -1;
-                        int i2 = -1;
-                        for (World worldSearcher : editing) {
-                            i2++;
-                            if (((Player) commandSender).getWorld() == worldSearcher) {
-                                if (minPlayer.get(i2) == null) {
-                                    commandSender.sendMessage("You have to give a minimum player number to this mini game world to execute this command");
-                                } else {
-                                    if (maxPlayer.get(i2) == null) {
-                                        commandSender.sendMessage("You have to give a maximum player number to this mini game world to execute this command");
-                                    } else {
-                                        if (playerSpawnPos.get(i2).contains(null)) {
-                                            commandSender.sendMessage("You have to give a spawn position for the maximum amount of players to this mini game world to execute this command");
-                                        } else {
-                                            while (submitting.size() + 1 == i2) {
-                                                submitting.add(null);
-                                            }
-                                            submitting.set(i2, ((Player) commandSender).getWorld());
-                                        }
-                                    }
-                                }
-                            } else {
-                                i++;
-                                if (i == editing.size()) {
-                                    commandSender.sendMessage("You have to give a type to this mini game world to execute this command");
-                                }
-                            }
+                        if (((Player) sender).getWorld().equals(pw.getWorld())) {
+                            pw.getPlayerLoc().add(((Player) sender).getLocation());
+                        } else {
+                            sender.sendMessage("§4You have to be in your world to do that!");
+                            return true;
                         }
-                    } else {
-                        commandSender.sendMessage("You have to be a player to execute this command");
-                    }
-                    break;
+                        config.set("playerWorldData." + pw.getName() + ".playerLocation", pw.getPlayerLoc());
+                        PluginMain.getInstance().saveConfig();
+                        sender.sendMessage("§Added your current location to the spawn locations");
+                        break;
+
+
+                    //Submitting
+                    case "submit":
+                        if (pw.isCanSubmit()) {
+                            try {
+                                String.valueOf(pw.getMinPlayer());
+                            } catch (NullPointerException e) {
+                                sender.sendMessage("§4You must set the minimum player amount first!");
+                                return true;
+                            }
+                            try {
+                                String.valueOf(pw.getMaxPlayer());
+                            } catch (NullPointerException e) {
+                                sender.sendMessage("§4You must set the maximum player amount first!");
+                                return true;
+                            }
+                            try {
+                                pw.getPlayerLoc().size();
+                            } catch (NullPointerException e) {
+                                sender.sendMessage("§4You must set at least " + String.valueOf(pw.getMinPlayer()) + " player spawn locations first!");
+                                return true;
+                            }
+                            try {
+                                pw.getType().toString();
+                            } catch (NullPointerException e) {
+                                sender.sendMessage("§4You must set the game type first!");
+                                return true;
+                            }
+                            if (pw.getPlayerLoc().size() < pw.getMaxPlayer()) {
+                                sender.sendMessage("§4You must set at least " + String.valueOf(pw.getMinPlayer()) + " player spawn locations first!");
+                                return true;
+                            }
+
+                            sender.sendMessage("§eSubmitting your World . . .");
+
+                            PlayerWorld finalPw = pw;
+                            Runnable r = new Runnable() {
+                                @Override
+                                public void run() {
+                                    String sourceFile = "World_" + finalPw.getName();
+                                    LocalDateTime myDateObj = LocalDateTime.now();
+                                    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
+                                    String formattedDate = myDateObj.format(myFormatObj);
+                                    String cName = "Submitted" + File.separator + "Worlds" + File.separator + finalPw.getName() + File.separator + "Minigame_" + finalPw.getName() + "_" + formattedDate + ".zip";
+                                    try {
+                                        new File("Submitted" + File.separator + "Worlds" + File.separator + finalPw.getName()).mkdirs();
+                                        File fileToZip = new File(sourceFile);
+                                        fileToZip.createNewFile();
+                                        FileOutputStream fos = new FileOutputStream(cName);
+                                        ZipOutputStream zipOut = new ZipOutputStream(fos);
+                                        Backup.zipFile(fileToZip, fileToZip.getName(), zipOut);
+                                        zipOut.close();
+                                        fos.close();
+                                        sender.sendMessage("§aDone !");
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        sender.sendMessage("§4Something went wrong while submitting ur world");
+                                        StringWriter sw = new StringWriter();
+                                        e.printStackTrace(new PrintWriter(sw));
+                                        String exceptionAsString = sw.toString();
+                                        sender.sendMessage(exceptionAsString);
+                                    }
+
+
+                                }
+                            };
+                            new Thread(r).start();
+
+                        } else {
+                            sender.sendMessage("§4you cannot submit more than once a day!");
+                        }
+                        break;
+                    default:
+                        sender.sendMessage("§4invalid options");
+
+
+                }
+
+            } catch (ArrayIndexOutOfBoundsException e) {
+                sender.sendMessage("§4Not enough arguments ");
+                sender.sendMessage("usage /game <1st arg> <2ond arg>");
+            } catch (Exception e) {
+                e.printStackTrace();
+                sender.sendMessage("§4An unknown error has occurred");
+                sender.sendMessage("usage /game <1st arg> <2ond arg>");
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            commandSender.sendMessage("Not enough arguments ");
-            commandSender.sendMessage("usage /game <1st arg> <2ond arg>");
-        } catch (Exception e) {
-            commandSender.sendMessage("an error has occurred");
-            commandSender.sendMessage("usage /game <1st arg> <2ond arg>");
+        } else {
+            sender.sendMessage("§4You have to be a player to execute this command !");
         }
         return true;
     }
+
 }

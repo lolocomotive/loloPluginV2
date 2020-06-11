@@ -15,7 +15,7 @@ import java.util.zip.ZipOutputStream;
 public class Backup implements CommandExecutor, Runnable {
     private CommandSender s = null;
 
-    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
+    public static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
         if (fileToZip.isHidden()) {
             return;
         }
@@ -48,7 +48,6 @@ public class Backup implements CommandExecutor, Runnable {
         switch (args[0]) {
             case "all":
                 sender.sendMessage("Backing up all Worlds...");
-                new Thread(this).start();
                 s = sender;
                 Bukkit.broadcastMessage("§4Saving all Worlds! §f-§6 This §emay§6 cause some lag");
                 for (World w : Bukkit.getWorlds()) {
@@ -56,6 +55,7 @@ public class Backup implements CommandExecutor, Runnable {
                     w.save();
                 }
                 Bukkit.broadcastMessage("§aDone saving all Worlds !");
+                new Thread(this).start();
                 break;
             case "restore":
                 sender.sendMessage("restoring Backup for world:" + args[1]);
